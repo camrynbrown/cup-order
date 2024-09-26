@@ -2,6 +2,7 @@ const draggableElements = document.querySelectorAll(".draggable")
 
 // current cup being dragged
 let selectedId;
+let isGameStarted = false;
 
 // target phrase
 let dropTargetID;
@@ -11,10 +12,21 @@ let dragStartIndex;
 let correctCounter = 0;
 
 addEventListener();
-startGame();
+
 
 function startGame() {
+    isGameStarted = true;
     shuffleCups();
+    checkForMatch();
+
+    const StartGame = document.querySelector(".start-game");
+    const correct = document.querySelector(".correct");
+    const check = document.querySelector(".check");
+
+    StartGame.style.cssText = "display: none;";
+    correct.style.cssText = "display: block;";
+    check.style.cssText = "display: block;";
+    
 }
 
 function shuffleCups() {
@@ -27,10 +39,20 @@ function shuffleCups() {
     }
 
     cups.forEach(cup => cupContainer.appendChild(cup));
+
+    updateDataIndex();
+}
+
+function updateDataIndex() {
+    const cups = document.querySelectorAll('.cup');
+    cups.forEach((cup, index) => {
+        cup.setAttribute('data-index', index);
+    });
 }
 
 
 function dragStart() {
+    if (!isGameStarted) return;
     selectedId = this.id;
     dragStartIndex = +this.closest('div').getAttribute('data-index');
     // console.log(dragStartIndex);
@@ -38,22 +60,24 @@ function dragStart() {
 }
 
 function dragEnter() {
-    // add css class for when entering drag
+    if (!isGameStarted) return;
     this.classList.add('over');
     // console.log("Drag enter");
 }
 
 function dragLeave() {
-    // add css class for when leaving drag
+    if (!isGameStarted) return;
     this.classList.remove('over');
     // console.log("Drag leave");
 }
 
 function dragOver(ev) {
+    if (!isGameStarted) return;
     ev.preventDefault();
 }
 
 function dragDrop() {
+    if (!isGameStarted) return;
     dropTargetID = this.id;
     const dragEndIndex = +this.getAttribute('data-index');
 
@@ -61,50 +85,87 @@ function dragDrop() {
 
     swapItems(dragStartIndex, dragEndIndex);
 
-    if (checkForMatch(selectedId, dropTargetID)) {
-        // add css for if it is correct
-        correctCounter++;
-        console.log("true. matching amount: " + correctCounter);
-    }
+    // if (checkForMatch(selectedId, dropTargetID)) {
+    //     // add css for if it is correct
+    //     correctCounter++;
+    //     console.log("true. matching amount: " + correctCounter);
+    // }
+
+    // checkForMatch();
+
 }
 
 function swapItems(fromIndex, toIndex) {
+    console.log("From Index: " + fromIndex + " To Index: " + toIndex);
     const cupContainer = document.querySelector(".cup-container");
     const cups = Array.from(cupContainer.children);
 
-    const itemOne = cups[fromIndex].querySelector('draggable');
-    const itemTwo = cups[toIndex].querySelector('draggable');
+    console.log("Swap: " + cups);
 
-    console.log(itemOne + " " + itemTwo);
+    const itemOne = cups[fromIndex];
+    const itemTwo = cups[toIndex];
 
-    cups[fromIndex].appendChild(itemTwo);
-    cups[toIndex].appendChild(itemOne);
+    console.log("Item One: " + itemOne.id + "Item Two: " + itemTwo.id);
+
+    if (fromIndex < toIndex) {
+        cupContainer.insertBefore(itemTwo, itemOne);
+        cupContainer.insertBefore(itemOne, cups[toIndex + 1] || null);
+    } else {
+        cupContainer.insertBefore(itemOne, itemTwo);
+        cupContainer.insertBefore(itemTwo, cups[fromIndex + 1] || null);
+    }
+
+    // updateDataIndex();
 }
 
 
-function checkForMatch (selected, dropTarget) {
-    switch (selected) {
-        case 'red-cup':
-            return dropTarget === 'red-cup' ? true : false;
+// function checkForMatch (selected, dropTarget) {
+//     switch (selected) {
+//         case 'red-cup':
+//             return dropTarget === 'red-cup' ? true : false;
             
-        case 'blue-cup':
-            return dropTarget === 'blue-cup' ? true : false;
+//         case 'blue-cup':
+//             return dropTarget === 'blue-cup' ? true : false;
 
-        case 'orange-cup':
-            return dropTarget === 'orange-cup' ? true : false;
+//         case 'orange-cup':
+//             return dropTarget === 'orange-cup' ? true : false;
 
-        case 'pink-cup':
-            return dropTarget === 'pink-cup' ? true : false;
+//         case 'pink-cup':
+//             return dropTarget === 'pink-cup' ? true : false;
 
-        case 'purple-cup':
-            return dropTarget === 'purple-cup' ? true : false;
+//         case 'purple-cup':
+//             return dropTarget === 'purple-cup' ? true : false;
 
-        case 'yellow-cup':
-            return dropTarget === 'yellow-cup' ? true : false;
+//         case 'yellow-cup':
+//             return dropTarget === 'yellow-cup' ? true : false;
 
-        default:
-            return false;
-    }
+//         default:
+//             return false;
+//     }
+// }
+
+function checkForMatch() {
+    const currentCups = document.querySelectorAll('.draggable');
+    const solutionCups = document.querySelectorAll('.behind-cups .solution');
+
+    console.log("Match " + currentCups);
+    // console.log(solutionCups);
+
+    correctCounter = 0;
+
+    currentCups.forEach((cup, index) => {
+        const currentCupID = cup.getAttribute('id');
+        const solutionCupID = solutionCups[index].getAttribute('id');
+
+        if (currentCupID === solutionCupID) {
+            correctCounter++;
+        }
+    });
+
+    const correctDisplay = document.querySelector('.correct');
+    correctDisplay.textContent = `You have ${correctCounter} correct.`;
+
+    console.log(`Correct matches: ${correctCounter}`);
 }
 
 function addEventListener() {

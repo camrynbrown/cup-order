@@ -32,8 +32,8 @@
                     <img class="cup-img" src="./images/cup-yellow.webp" alt="Yellow cup.">               
                 </div>
             </div>
-                <div class="wooden-crate">
-                    <img class="wooden-crate-image" src="./images/wooden-crate_cropped.webp">
+                <div class="wooden-crate" draggable="false">
+                    <img class="wooden-crate-image" draggable="false" src="./images/wooden-crate_cropped.webp">
                 </div>
                 <div class="cup-container behind-cups">
                     <div class="cup solution" id="red-cup">
@@ -55,6 +55,9 @@
                         <img class="cup-img" src="./images/cup-yellow.webp" alt="Yellow cup.">               
                 </div>
         </div>
+        <button class="start-game" onclick="startGame()">Start Game!</button>
+        <button class="check" onclick="checkForMatch()">Check Order</button>
+        <h1 class="correct">You have 0 correct.</h1>
     </div>
     <script src="script.js"></script>
 </body>

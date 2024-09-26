@@ -86,3 +86,36 @@ h2 {
 .draggable:hover {
     opacity: .5;
 }
+
+.start-game {
+    margin-top: 100px;
+    margin-bottom: -30px;
+    border-radius: 40%;
+    padding: 20px;
+    font-size: 35px;
+    border: solid #ffffff 5px;
+    background: linear-gradient(135deg, #763fcf, #7804d6);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.correct {
+    margin-top: 30px;
+    margin-bottom: -60px;
+    display: none;
+}
+
+.check {
+    position: relative;
+    margin-top: 8px;
+    padding: 3px;
+    font-size: 14px;
+    width: 100%;
+    background: linear-gradient(135deg, #763fcf, #7804d6);
+    color: #fff;
+    border: solid #ffffff 3px;
+    margin-bottom: -10px;
+    cursor: pointer;
+    display: none;
+}
