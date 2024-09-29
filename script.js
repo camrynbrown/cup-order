@@ -1,4 +1,4 @@
-const draggableElements = document.querySelectorAll(".draggable")
+const draggableElements = document.querySelectorAll(".draggable");
 
 // current cup being dragged
 let selectedId;
@@ -105,10 +105,16 @@ function touchStart(ev) {
     dragStartIndex = +this.closest('div').getAttribute('data-index');
 
     console.log("Touch start. selected ID: " + selectedId);
+
+    const currentImage = this.querySelector('.cup-img');
+    currentImage.classList.add('over');
+
 }
 
 function touchMove(ev) {
     ev.preventDefault();
+    const currentImage = this.querySelector('.cup-img');
+    currentImage.classList.add('over');
 }
 
 function touchEnd(ev) {
@@ -120,11 +126,12 @@ function touchEnd(ev) {
     if (dropElement && dropElement.classList.contains('draggable')) {
         dropTargetID = dropElement.id;
         const dragEndIndex = +dropElement.closest('div').getAttribute('data-index');
-        
-        console.log("Touch end. dropped ID: " + dropTargetID);
 
         swapItems(dragStartIndex, dragEndIndex);
     }
+
+    const currentImage = this.querySelector('.cup-img');
+    currentImage.classList.remove('over');
 }
 
 
@@ -134,12 +141,9 @@ function swapItems(fromIndex, toIndex) {
     const cupContainer = document.querySelector(".cup-container");
     const cups = Array.from(cupContainer.children);
     
-    console.log("Before Swap:", [...cups].map(cup => cup.id));
-
     const itemOne = cups[fromIndex];
     const itemTwo = cups[toIndex];
 
-    console.log("Swapping: Item One ID: " + itemOne.id + " with Item Two ID: " + itemTwo.id);
 
     if (fromIndex < toIndex) {
         cupContainer.insertBefore(itemTwo, itemOne);
@@ -151,12 +155,11 @@ function swapItems(fromIndex, toIndex) {
 
     // Log the DOM structure after the swap
     const updatedCups = Array.from(cupContainer.children);
-    console.log("After Swap:", updatedCups.map(cup => cup.id));
 
     // Check if the indexes and IDs match what you expect
-    updatedCups.forEach((cup, index) => {
-        console.log(`Cup at index ${index}: ${cup.id}`);
-    });
+    // updatedCups.forEach((cup, index) => {
+    //     console.log(`Cup at index ${index}: ${cup.id}`);
+    // });
 
     updateDataIndex();
 }
