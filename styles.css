@@ -38,8 +38,14 @@ h2 {
 
 .cup-img {
     width: 100%;
-    max-width: 70px;
+    max-width: 55px;
     height: auto;
+}
+
+.cup img {
+    -webkit-user-drag: none;
+    pointer-events: none;
+
 }
 
 .wooden-crate-image {
@@ -60,7 +66,7 @@ h2 {
 .wooden-crate {
     /* border: 4px solid green; */
     z-index: 2;
-    opacity: .2;
+    /* opacity: .2; */
 }
 
 .cup-crate-container {
@@ -98,6 +104,7 @@ h2 {
     color: #fff;
     font-weight: 700;
     cursor: pointer;
+    /* display: none; */
 }
 
 .correct {
@@ -108,7 +115,7 @@ h2 {
 
 .check {
     position: relative;
-    margin-top: 8px;
+    margin-top: 10px;
     padding: 3px;
     font-size: 14px;
     width: 100%;
@@ -119,3 +126,32 @@ h2 {
     cursor: pointer;
     display: none;
 }
+
+.try-again {
+    margin-top: 80px;
+    margin-bottom: -90px;
+    border-radius: 20%;
+    padding: 10px;
+    font-size: 15px;
+    border: solid #ffffff 4px;
+    background: linear-gradient(135deg, #763fcf, #7804d6);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    display: none;
+}
+
+.space {
+    padding-top: 15px;
+}
+
+@media screen and (max-width: 400px) {
+    .cup-img {
+        width: 45px;
+    }
+    .start-game {
+        font-size: 25px; /* Adjust button text size */
+        padding: 15px;
+    }
+}
+

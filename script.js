@@ -97,15 +97,16 @@ function dragDrop() {
 
 function swapItems(fromIndex, toIndex) {
     console.log("From Index: " + fromIndex + " To Index: " + toIndex);
+    
     const cupContainer = document.querySelector(".cup-container");
     const cups = Array.from(cupContainer.children);
-
-    console.log("Swap: " + cups);
+    
+    console.log("Before Swap:", [...cups].map(cup => cup.id));
 
     const itemOne = cups[fromIndex];
     const itemTwo = cups[toIndex];
 
-    console.log("Item One: " + itemOne.id + "Item Two: " + itemTwo.id);
+    console.log("Swapping: Item One ID: " + itemOne.id + " with Item Two ID: " + itemTwo.id);
 
     if (fromIndex < toIndex) {
         cupContainer.insertBefore(itemTwo, itemOne);
@@ -115,7 +116,16 @@ function swapItems(fromIndex, toIndex) {
         cupContainer.insertBefore(itemTwo, cups[fromIndex + 1] || null);
     }
 
-    // updateDataIndex();
+    // Log the DOM structure after the swap
+    const updatedCups = Array.from(cupContainer.children);
+    console.log("After Swap:", updatedCups.map(cup => cup.id));
+
+    // Check if the indexes and IDs match what you expect
+    updatedCups.forEach((cup, index) => {
+        console.log(`Cup at index ${index}: ${cup.id}`);
+    });
+
+    updateDataIndex();
 }
 
 
@@ -162,10 +172,25 @@ function checkForMatch() {
         }
     });
 
+    if (correctCounter == 6) {
+        return finishedGame();
+    }
+
     const correctDisplay = document.querySelector('.correct');
     correctDisplay.textContent = `You have ${correctCounter} correct.`;
 
     console.log(`Correct matches: ${correctCounter}`);
+}
+
+function finishedGame() {
+    const correctDisplay = document.querySelector('.correct');
+    correctDisplay.textContent = `You have all ${correctCounter} correct.`;
+    
+    const TryAgain = document.querySelector(".try-again");
+    TryAgain.style.cssText = "display: block;";
+
+
+
 }
 
 function addEventListener() {
@@ -176,4 +201,10 @@ function addEventListener() {
         element.addEventListener('dragover', dragOver);
         element.addEventListener('dragleave', dragLeave);
     });
+}
+
+function tryAgain() {
+    const TryAgain = document.querySelector(".try-again");
+    TryAgain.style.cssText = "display: none;";
+    return startGame();
 }
