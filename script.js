@@ -76,7 +76,8 @@ function dragOver(ev) {
     ev.preventDefault();
 }
 
-function dragDrop() {
+function dragDrop(ev) {
+    ev.preventDefault();
     if (!isGameStarted) return;
     dropTargetID = this.id;
     const dragEndIndex = +this.getAttribute('data-index');
