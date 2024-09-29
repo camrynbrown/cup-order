@@ -96,6 +96,38 @@ function dragDrop(ev) {
 
 }
 
+function touchStart(ev) {
+    ev.preventDefault();
+    if (!isGameStarted) return;
+
+    const touch = ev.touches[0];
+    selectedId = this.id;
+    dragStartIndex = +this.closest('div').getAttribute('data-index');
+
+    console.log("Touch start. selected ID: " + selectedId);
+}
+
+function touchMove(ev) {
+    ev.preventDefault();
+}
+
+function touchEnd(ev) {
+    ev.preventDefault();
+    if (!isGameStarted) return;
+
+    const dropElement = document.elementFromPoint(ev.changedTouches[0].clientX, ev.changedTouches[0].clientY);
+
+    if (dropElement && dropElement.classList.contains('draggable')) {
+        dropTargetID = dropElement.id;
+        const dragEndIndex = +dropElement.closest('div').getAttribute('data-index');
+        
+        console.log("Touch end. dropped ID: " + dropTargetID);
+
+        swapItems(dragStartIndex, dragEndIndex);
+    }
+}
+
+
 function swapItems(fromIndex, toIndex) {
     console.log("From Index: " + fromIndex + " To Index: " + toIndex);
     
@@ -196,11 +228,17 @@ function finishedGame() {
 
 function addEventListener() {
     draggableElements.forEach (element => {
+        // Drag and Drop for website.
         element.addEventListener('dragstart', dragStart);
         element.addEventListener('dragenter', dragEnter);
         element.addEventListener('drop', dragDrop);
         element.addEventListener('dragover', dragOver);
         element.addEventListener('dragleave', dragLeave);
+
+        // Drag and Drop for mobile using touch.
+        element.addEventListener('touchstart', touchStart, { passive: false });
+        element.addEventListener('touchmove', touchMove, { passive: false });
+        element.addEventListener('touchend', touchEnd, { passive: false });
     });
 }
 
