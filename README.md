@@ -42,7 +42,6 @@ The objective of the game is to arrange the cups in the correct order. The botto
 Contributions are welcome! If you're interested in contributing to the project, please follow these steps:
 
 1. Fork the repository
-2. Fork the repository
     ```bash
     git checkout -b feature-name
 3. Commit your changes:
